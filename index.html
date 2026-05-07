@@ -512,16 +512,65 @@ function updateBelarusClock(){
 setInterval(updateBelarusClock,1000); updateBelarusClock();
 function updateCountdown(){
   let today=new Date();
-  let birthday=new Date(2026,4,25);
+  let birthday=new Date(today.getFullYear(), 4, 25); // 25 مايو من العام الحالي
   let diff=birthday-today;
-  if(diff<0){ document.getElementById('countdownTimer').innerHTML='🎉 СЕГОДНЯ! 🎉'; return; }
+  if(diff<0){ 
+    document.getElementById('countdownTimer').innerHTML='🎉 СЕГОДНЯ! 🎉'; 
+    return; 
+  }
   document.getElementById('countdownTimer').innerHTML=`${Math.floor(diff/(1000*60*60*24))} дн. ${Math.floor((diff%86400000)/3600000)} ч. ${Math.floor((diff%3600000)/60000)} мин.`;
 }
 setInterval(updateCountdown,60000); updateCountdown();
-let birthDate=new Date(2008,4,25);
-let age=new Date().getFullYear()-birthDate.getFullYear();
-if(new Date().getMonth()<birthDate.getMonth()||(new Date().getMonth()===birthDate.getMonth()&&new Date().getDate()<birthDate.getDate())) age--;
-document.getElementById('ageBadge').innerHTML=age;
+
+// ========== حساب العمر الصحيح (تاريخ الميلاد: 25 مايو 2007) ==========
+function calculateAndUpdateAge() {
+  let birthDate = new Date(2007, 4, 25); // 25 مايو 2007
+  let today = new Date();
+  
+  // حساب العمر الأساسي
+  let age = today.getFullYear() - birthDate.getFullYear();
+  let birthdayThisYear = new Date(today.getFullYear(), 4, 25);
+  
+  // إذا لم يحن عيد الميلاد بعد هذا العام، ننقص سنة
+  if (today < birthdayThisYear) {
+    age--;
+  }
+  
+  // إذا كان اليوم هو عيد الميلاد (25 مايو) نعرض 19 سنة
+  if (today.getDate() === 25 && today.getMonth() === 4) {
+    age = 19;
+  }
+  
+  document.getElementById('ageBadge').innerHTML = age;
+  return age;
+}
+
+// تحديث العمر عند تحميل الصفحة
+calculateAndUpdateAge();
+
+// التحقق من منتصف الليل في يوم 25 مايو لتحديث العمر تلقائياً
+function checkMidnightBirthday() {
+  let now = new Date();
+  let target = new Date(now.getFullYear(), 4, 25, 0, 0, 0); // 25 مايو 00:00:00
+  
+  // إذا كان اليوم هو 24 مايو والوقت يقترب من منتصف الليل
+  if (now.getDate() === 24 && now.getMonth() === 4) {
+    let timeToMidnight = target - now;
+    if (timeToMidnight > 0 && timeToMidnight < 120000) { // خلال الدقيقتين الأخيرتين
+      setTimeout(() => {
+        document.getElementById('ageBadge').innerHTML = 19;
+        showToast('🎉 Кате исполнилось 19 лет! 🎉');
+        // إطلاق ألعاب نارية احتفالية
+        addBurst(undefined, undefined, 200);
+        createFirework(innerWidth/2, innerHeight/2);
+      }, timeToMidnight);
+    }
+  }
+}
+
+// التحقق كل دقيقة
+setInterval(checkMidnightBirthday, 60000);
+checkMidnightBirthday();
 
 // الكتابة التلقائية
 let txt="Эта страница создана с любовью, чтобы поздравить с днём рождения самую прекрасную Катю.";
