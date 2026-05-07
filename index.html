@@ -207,7 +207,7 @@ body{
 .slider-dot.active { background: var(--red); width: 25px; border-radius: 10px; }
 .section-qualities{background:linear-gradient(135deg,#e02040,#d04f70);padding:5rem 1.5rem;position:relative;}
 .qual-title{font-family:'Abril Fatface',cursive;font-size:clamp(2rem,8vw,4rem);color:white;text-align:center;margin-bottom:3rem;font-style:italic;}
-.qual-grid{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;max-width:680px;margin:0 auto;}
+.qual-grid{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;max-width:900px;margin:0 auto;}
 .qual-card{background:rgba(255,255,255,.14);border:2px solid rgba(255,255,255,.25);backdrop-filter:blur(10px);border-radius:18px;padding:1.5rem 1.3rem;text-align:center;cursor:pointer;transition:all .3s;width:160px;}
 .qual-card:hover{background:rgba(255,255,255,.3);transform:scale(1.05);}
 .qual-icon{font-size:2.2rem;}
@@ -258,12 +258,14 @@ body{
   .slider-img img{max-height:350px;}
   .letter-card.open{max-height:700px;}
   .letter-inner{max-height:550px;}
+  .qual-card{width:140px;}
 }
 @media(max-width:480px){
   .hero-title{font-size:3rem;}
   .slider-img img{max-height:280px;}
   .letter-card.open{max-height:600px;}
   .letter-inner{max-height:450px;}
+  .qual-card{width:130px;padding:1rem;}
 }
 #toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(20px);background:#d02040;color:white;padding:12px 28px;border-radius:50px;font-weight:600;opacity:0;transition:all .3s;z-index:9999;pointer-events:none;white-space:nowrap;}
 @media(max-width:480px){#toast{white-space:normal;max-width:85%;text-align:center;font-size:0.8rem;}}
@@ -343,6 +345,10 @@ body{
     <div class="qual-card" onclick="showToast('🌸 Искренность — твоё сердце говорит правду!')"><div class="qual-icon">🌼</div><div class="qual-name">Искренняя</div></div>
     <div class="qual-card" onclick="showToast('🎨 Искусство в твоей душе делает этот мир прекраснее.')"><div class="qual-icon">🎨</div><div class="qual-name">Творческая</div></div>
     <div class="qual-card" onclick="showToast('💖 Верность — дружба с тобой бесценна!')"><div class="qual-icon">🤍</div><div class="qual-name">Надёжная</div></div>
+    <!-- البطاقة الجديدة الأولى: Благородство ⚜️ -->
+    <div class="qual-card" onclick="showToast('⚜️ Я восхищаюсь тем, как ты уважаешь историю своей страны и память её героев. ⚜️')"><div class="qual-icon">⚜️</div><div class="qual-name">Благородство</div></div>
+    <!-- البطاقة الجديدة الثانية: Набожная 🙏 -->
+    <div class="qual-card" onclick="showToast('🙏 Я очень уважаю твою веру и то, как ты хранишь свои ценности. Это делает твою красоту ещё глубже. 🙏')"><div class="qual-icon">🙏</div><div class="qual-name">Набожная</div></div>
   </div>
 </section>
 
@@ -370,13 +376,13 @@ body{
             <p>(С днём рождения, Катя!) 🎉</p>
             <p>Моя гордость как друга заставляет меня радоваться, что я знаю такую личность, как ты. 😌</p>
             <p>Начни новый год своей жизни с уверенностью, мир ждёт тебя! 💫</p>
-            <p>Мы почти год знакомы, но это был лучший год для меня, познакомившись с тобой. </p>
+            <p>Мы почти год знакомы, но это был лучший год для меня, познакомившись с тобой. 🫶</p>
             <p>Социальные сети были просто средством, но душа сделала нашу дружбу настоящей. 💌</p>
             <p>Полный год сообщений и общения… это был прекрасный год с тобой. 🌸</p>
             <p>Расстояние между Египтом и Беларусью большое, но дружба и любовь не знают границ. 🌏❤️</p>
             <p>Спасибо, что была частью моего дня весь прошлый год. 🙏</p>
             <p>Настоящая дружба не требует ежедневных встреч, она требует только искренние сердца. 💖</p>
-            <p>Ты доказала мне, что «онлайн»-друзья могут быть вернее людей рядом с нами. </p>
+            <p>Ты доказала мне, что «онлайн»-друзья могут быть вернее людей рядом с нами. 🌐</p>
             <p>Помнишь, когда мы впервые поговорили? Это было начало истории дружбы, которой я дорожу.</p>
             <p>Надеюсь, что в следующем году мы останемся друзьями, и потом, и ещё после, пока не отметим вместе 100 лет. 🎈</p>
             <p>Катя, ты не просто «друг» для меня, ты очень дорогой человек. 💕</p>
@@ -540,10 +546,7 @@ calculateAndUpdateAge();
 let fireworksInterval = null;
 
 function startCelebration() {
-  // Show toast message
   showToast('🎉🎊 КАТЕ 19 ЛЕТ! С ДНЁМ РОЖДЕНИЯ! 🎊🎉');
-  
-  // Launch multiple fireworks immediately
   for(let i = 0; i < 20; i++) {
     setTimeout(() => {
       createFirework(
@@ -552,8 +555,6 @@ function startCelebration() {
       );
     }, i * 100);
   }
-  
-  // Add burst effects all over screen
   for(let i = 0; i < 15; i++) {
     setTimeout(() => {
       addBurst(
@@ -563,8 +564,6 @@ function startCelebration() {
       );
     }, i * 150);
   }
-  
-  // Continuous fireworks every 0.5 seconds for 10 seconds
   let fireworkCount = 0;
   fireworksInterval = setInterval(() => {
     if(fireworkCount < 20) {
@@ -578,35 +577,25 @@ function startCelebration() {
       clearInterval(fireworksInterval);
     }
   }, 500);
-  
-  // Show modal surprise
   setTimeout(() => {
     document.getElementById('surpriseModal').classList.add('open');
   }, 500);
-  
-  // Stop all celebrations after 10 seconds
   setTimeout(() => {
     if(fireworksInterval) clearInterval(fireworksInterval);
     showToast('🎂 С ДНЁМ РОЖДЕНИЯ, КАТЯ! 19 ЛЕТ! 🎂');
   }, 10000);
 }
 
-// ========== CHECK MIDNIGHT ON MAY 25th ==========
 let birthdayCelebrationStarted = false;
-
 function checkMidnightBirthday() {
   let now = new Date();
   let target = new Date(now.getFullYear(), 4, 25, 0, 0, 0);
-  
-  // If it's May 25th and celebration hasn't started yet
   if (now.getMonth() === 4 && now.getDate() === 25 && !birthdayCelebrationStarted) {
     birthdayCelebrationStarted = true;
     document.getElementById('ageBadge').innerHTML = 19;
     startCelebration();
     return;
   }
-  
-  // Also check for midnight transition on May 24th->25th
   if (now.getDate() === 24 && now.getMonth() === 4) {
     let timeToMidnight = target - now;
     if (timeToMidnight > 0 && timeToMidnight < 60000) {
@@ -620,8 +609,6 @@ function checkMidnightBirthday() {
     }
   }
 }
-
-// Check every 5 seconds
 setInterval(checkMidnightBirthday, 5000);
 checkMidnightBirthday();
 
