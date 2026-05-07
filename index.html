@@ -392,7 +392,7 @@ body{
             <p>Желаю найти любовь, достойную твоего прекрасного сердца. 💌</p>
             <p>Желаю путешествовать по всем местам, о которых мечтаешь. ✈️🌍</p>
             <p>Желаю, чтобы учеба была лёгкой и приятной. 📚💫</p>
-            <p>Желаю здоровья, счастья и спокойствия. 💖</p>
+            <p>Желаю здоровья, счастья и спокойствия. 🧘‍♀️💖</p>
             <p>Желаю, чтобы ничто никогда не разрушало твою радость. 🌈</p>
             <p>Надеюсь, ты откроешь в себе новые таланты в этом году. ✨</p>
             <p>Если солнце у нас зашло, будь уверена, что свет твоей дружбы всё ещё освещает меня. 💛</p>
@@ -512,7 +512,7 @@ function updateBelarusClock(){
 setInterval(updateBelarusClock,1000); updateBelarusClock();
 function updateCountdown(){
   let today=new Date();
-  let birthday=new Date(today.getFullYear(), 4, 25); // 25 مايو من العام الحالي
+  let birthday=new Date(today.getFullYear(), 4, 25);
   let diff=birthday-today;
   if(diff<0){ 
     document.getElementById('countdownTimer').innerHTML='🎉 СЕГОДНЯ! 🎉'; 
@@ -524,52 +524,162 @@ setInterval(updateCountdown,60000); updateCountdown();
 
 // ========== حساب العمر الصحيح (تاريخ الميلاد: 25 مايو 2007) ==========
 function calculateAndUpdateAge() {
-  let birthDate = new Date(2007, 4, 25); // 25 مايو 2007
+  let birthDate = new Date(2007, 4, 25);
   let today = new Date();
-  
-  // حساب العمر الأساسي
   let age = today.getFullYear() - birthDate.getFullYear();
   let birthdayThisYear = new Date(today.getFullYear(), 4, 25);
-  
-  // إذا لم يحن عيد الميلاد بعد هذا العام، ننقص سنة
-  if (today < birthdayThisYear) {
-    age--;
-  }
-  
-  // إذا كان اليوم هو عيد الميلاد (25 مايو) نعرض 19 سنة
-  if (today.getDate() === 25 && today.getMonth() === 4) {
-    age = 19;
-  }
-  
+  if (today < birthdayThisYear) { age--; }
+  if (today.getDate() === 25 && today.getMonth() === 4) { age = 19; }
   document.getElementById('ageBadge').innerHTML = age;
   return age;
 }
-
-// تحديث العمر عند تحميل الصفحة
 calculateAndUpdateAge();
 
-// التحقق من منتصف الليل في يوم 25 مايو لتحديث العمر تلقائياً
-function checkMidnightBirthday() {
-  let now = new Date();
-  let target = new Date(now.getFullYear(), 4, 25, 0, 0, 0); // 25 مايو 00:00:00
-  
-  // إذا كان اليوم هو 24 مايو والوقت يقترب من منتصف الليل
-  if (now.getDate() === 24 && now.getMonth() === 4) {
-    let timeToMidnight = target - now;
-    if (timeToMidnight > 0 && timeToMidnight < 120000) { // خلال الدقيقتين الأخيرتين
-      setTimeout(() => {
-        document.getElementById('ageBadge').innerHTML = 19;
-        showToast('🎉 Кате исполнилось 19 лет! 🎉');
-        // إطلاق ألعاب نارية احتفالية
-        addBurst(undefined, undefined, 200);
-        createFirework(innerWidth/2, innerHeight/2);
-      }, timeToMidnight);
-    }
-  }
+// ========== SOUND EFFECTS FOR BIRTHDAY ==========
+let explosionSound = null;
+let celebrationMusic = null;
+
+function createExplosionSound() {
+    // Create a beep/explosion sound using Web Audio API
+    try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        oscillator.frequency.value = 200;
+        gainNode.gain.value = 0.3;
+        oscillator.start();
+        gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 1);
+        oscillator.stop(audioCtx.currentTime + 0.8);
+    } catch(e) { console.log("Audio error:", e); }
 }
 
-// التحقق كل دقيقة
-setInterval(checkMidnightBirthday, 60000);
+function playCelebrationSound() {
+    // Create a fun celebration melody using Web Audio API
+    try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const notes = [523.25, 587.33, 659.25, 523.25, 587.33, 659.25, 783.99, 880.00];
+        let time = 0;
+        notes.forEach((freq, i) => {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.frequency.value = freq;
+            gain.gain.value = 0.2;
+            const startTime = audioCtx.currentTime + time;
+            osc.start(startTime);
+            gain.gain.exponentialRampToValueAtTime(0.00001, startTime + 0.3);
+            osc.stop(startTime + 0.3);
+            time += 0.25;
+        });
+    } catch(e) { console.log("Audio error:", e); }
+}
+
+// ========== HEAVY CELEBRATION FOR 10 SECONDS ==========
+let celebrationInterval = null;
+let fireworksInterval = null;
+
+function start10SecondCelebration() {
+    // Play explosion sound first
+    createExplosionSound();
+    
+    // Show toast message
+    showToast('🎉🎊 КАТЕ 19 ЛЕТ! С ДНЁМ РОЖДЕНИЯ! 🎊🎉');
+    
+    // Launch multiple fireworks immediately
+    for(let i = 0; i < 15; i++) {
+        setTimeout(() => {
+            createFirework(
+                innerWidth/2 + (Math.random() - 0.5) * 300,
+                innerHeight/2 + (Math.random() - 0.5) * 200
+            );
+        }, i * 100);
+    }
+    
+    // Add burst effects all over screen
+    for(let i = 0; i < 10; i++) {
+        setTimeout(() => {
+            addBurst(
+                innerWidth/2 + (Math.random() - 0.5) * 400,
+                innerHeight/2 + (Math.random() - 0.5) * 300,
+                100
+            );
+        }, i * 200);
+    }
+    
+    // Continuous fireworks every 0.5 seconds for 10 seconds
+    let fireworkCount = 0;
+    fireworksInterval = setInterval(() => {
+        if(fireworkCount < 20) { // 20 fireworks over 10 seconds
+            createFirework(
+                innerWidth/2 + (Math.random() - 0.5) * 500,
+                innerHeight/3 + Math.random() * 300
+            );
+            addBurst(undefined, undefined, 60);
+            fireworkCount++;
+        } else {
+            clearInterval(fireworksInterval);
+        }
+    }, 500);
+    
+    // Play celebration melody every 1.5 seconds for 10 seconds
+    let melodyCount = 0;
+    celebrationInterval = setInterval(() => {
+        if(melodyCount < 7) {
+            playCelebrationSound();
+            melodyCount++;
+        } else {
+            clearInterval(celebrationInterval);
+        }
+    }, 1400);
+    
+    // Show modal surprise
+    setTimeout(() => {
+        document.getElementById('surpriseModal').classList.add('open');
+    }, 500);
+    
+    // Stop all celebrations after 10 seconds exactly
+    setTimeout(() => {
+        if(fireworksInterval) clearInterval(fireworksInterval);
+        if(celebrationInterval) clearInterval(celebrationInterval);
+        showToast('🎂 С ДНЁМ РОЖДЕНИЯ, КАТЯ! 19 ЛЕТ! 🎂');
+    }, 10000);
+}
+
+// ========== CHECK MIDNIGHT ON MAY 25th ==========
+let birthdayCelebrationStarted = false;
+
+function checkMidnightBirthday() {
+    let now = new Date();
+    let target = new Date(now.getFullYear(), 4, 25, 0, 0, 0);
+    
+    // If it's May 25th and celebration hasn't started yet
+    if (now.getMonth() === 4 && now.getDate() === 25 && !birthdayCelebrationStarted) {
+        birthdayCelebrationStarted = true;
+        document.getElementById('ageBadge').innerHTML = 19;
+        start10SecondCelebration();
+        return;
+    }
+    
+    // Also check for midnight transition on May 24th->25th
+    if (now.getDate() === 24 && now.getMonth() === 4) {
+        let timeToMidnight = target - now;
+        if (timeToMidnight > 0 && timeToMidnight < 60000) { // Last minute before midnight
+            setTimeout(() => {
+                if (!birthdayCelebrationStarted) {
+                    birthdayCelebrationStarted = true;
+                    document.getElementById('ageBadge').innerHTML = 19;
+                    start10SecondCelebration();
+                }
+            }, timeToMidnight);
+        }
+    }
+}
+
+// Check every 5 seconds for accurate midnight detection
+setInterval(checkMidnightBirthday, 5000);
 checkMidnightBirthday();
 
 // الكتابة التلقائية
@@ -602,7 +712,6 @@ resizeFW();window.addEventListener('resize',resizeFW);
 function createFirework(x,y){for(let i=0;i<80;i++) fwParts.push({x:x,y:y,vx:(Math.random()-0.5)*8,vy:(Math.random()-0.5)*8-3,life:1,maxLife:70,size:Math.random()*6+3,color:`hsl(${Math.random()*360},100%,60%)`,rot:Math.random()*360});}
 function animFW(){fwCtx.clearRect(0,0,fwCanvas.width,fwCanvas.height);for(let i=0;i<fwParts.length;i++){let p=fwParts[i];p.x+=p.vx;p.y+=p.vy;p.life-=0.015;fwCtx.save();fwCtx.translate(p.x,p.y);fwCtx.rotate(p.rot);fwCtx.globalAlpha=p.life;fwCtx.fillStyle=p.color;fwCtx.fillRect(-p.size/2,-p.size/2,p.size,p.size);fwCtx.restore();if(p.life<=0){fwParts.splice(i,1);i--;}}requestAnimationFrame(animFW);}
 animFW();
-for(let i=0;i<6;i++) setTimeout(()=>{createFirework(innerWidth/2+(Math.random()-0.5)*200,innerHeight/2+(Math.random()-0.5)*150);},i*400);
 
 // قلوب متساقطة
 let fallCanvas=document.getElementById('falling-canvas'),fallCtx=fallCanvas.getContext('2d'),fallItems=[];
@@ -612,11 +721,11 @@ setInterval(()=>{let items=['❤️','💖','💗','🌹','🌸','💕'];fallIte
 function animFall(){fallCtx.clearRect(0,0,fallCanvas.width,fallCanvas.height);for(let i=0;i<fallItems.length;i++){let f=fallItems[i];f.y+=f.speed;fallCtx.font=`${f.size}px "Segoe UI Emoji"`;fallCtx.fillStyle=`hsl(${Math.random()*50+330},70%,60%)`;fallCtx.fillText(f.char,f.x,f.y);if(f.y>innerHeight+50){fallItems.splice(i,1);i--;}}requestAnimationFrame(animFall);}
 animFall();
 
-function showToast(msg){let t=document.getElementById('toast');t.textContent=msg;t.style.opacity='1';t.style.transform='translateX(-50%) translateY(0px)';clearTimeout(window.toastTimeout);window.toastTimeout=setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(-50%) translateY(20px)';},2500);}
+function showToast(msg){let t=document.getElementById('toast');t.textContent=msg;t.style.opacity='1';t.style.transform='translateX(-50%) translateY(0px)';clearTimeout(window.toastTimeout);window.toastTimeout=setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(-50%) translateY(20px)';},3000);}
 
 document.getElementById('blowCandleBtn').onclick=()=>{addBurst(undefined,undefined,200);createFirework(innerWidth/2,innerHeight/2);showToast('🎂✨ Свечи погасли! С днём рождения, Катя! 🕯️💖');};
 
-// الظرف الأول
+// Envelope handlers
 let e1=false;
 document.getElementById('envScene1').onclick=()=>{
   e1=!e1;
@@ -626,7 +735,6 @@ document.getElementById('envScene1').onclick=()=>{
   if(document.getElementById('envHint1')) document.getElementById('envHint1').style.opacity=e1?'0':'1';
   if(e1){showToast('💌 Письмо открыто!');addBurst(undefined,undefined,80);}
 };
-// الظرف الثاني
 let e2=false;
 document.getElementById('envScene2').onclick=()=>{
   e2=!e2;
@@ -637,7 +745,7 @@ document.getElementById('envScene2').onclick=()=>{
   if(e2){showToast('🎤 Голосовое сообщение готово!');addBurst(undefined,undefined,80);}
 };
 
-// الصوت
+// Audio player
 let currentAudio=null,isPlaying=false;
 let playBtn=document.getElementById('voicePlayBtn'),stopBtn=document.getElementById('voiceStopBtn'),statusText=document.getElementById('voiceStatusText'),playIcon=document.getElementById('playPauseIcon');
 function updateUI(playing){
@@ -657,7 +765,7 @@ playBtn.onclick=()=>{
 };
 stopBtn.onclick=()=>{if(currentAudio){currentAudio.pause();currentAudio.currentTime=0;isPlaying=false;updateUI(false);showToast('⏹️ Остановлено');}else showToast('⚠️ Нет аудио');};
 
-// سلايدر الصور
+// Slider
 let currentSlide=0,slides=document.querySelectorAll('.slider-img'),sliderImages=document.getElementById('sliderImages'),dotsContainer=document.getElementById('sliderDots');
 if(slides.length>0){
   for(let i=0;i<slides.length;i++){let dot=document.createElement('div');dot.classList.add('slider-dot');if(i===0)dot.classList.add('active');dot.onclick=()=>goToSlide(i);dotsContainer.appendChild(dot);}
