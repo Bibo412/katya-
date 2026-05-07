@@ -376,7 +376,7 @@ body{
             <p>Расстояние между Египтом и Беларусью большое, но дружба и любовь не знают границ. 🌏❤️</p>
             <p>Спасибо, что была частью моего дня весь прошлый год. 🙏</p>
             <p>Настоящая дружба не требует ежедневных встреч, она требует только искренние сердца. 💖</p>
-            <p>Ты доказала мне, что «онлайн»-друзья могут быть вернее людей рядом с нами. 🌐</p>
+            <p>Ты доказала мне, что «онлайн»-друзья могут быть вернее людей рядом с нами. </p>
             <p>Помнишь, когда мы впервые поговорили? Это было начало истории дружбы, которой я дорожу.</p>
             <p>Надеюсь, что в следующем году мы останемся друзьями, и потом, и ещё после, пока не отметим вместе 100 лет. 🎈</p>
             <p>Катя, ты не просто «друг» для меня, ты очень дорогой человек. 💕</p>
@@ -392,7 +392,7 @@ body{
             <p>Желаю найти любовь, достойную твоего прекрасного сердца. 💌</p>
             <p>Желаю путешествовать по всем местам, о которых мечтаешь. ✈️🌍</p>
             <p>Желаю, чтобы учеба была лёгкой и приятной. 📚💫</p>
-            <p>Желаю здоровья, счастья и спокойствия. 💖</p>
+            <p>Желаю здоровья, счастья и спокойствия. 🧘‍♀️💖</p>
             <p>Желаю, чтобы ничто никогда не разрушало твою радость. 🌈</p>
             <p>Надеюсь, ты откроешь в себе новые таланты в этом году. ✨</p>
             <p>Если солнце у нас зашло, будь уверена, что свет твоей дружбы всё ещё освещает меня. 💛</p>
@@ -503,13 +503,14 @@ setTimeout(()=>{
   setTimeout(()=>{ document.getElementById('surpriseModal').classList.add('open'); },1000);
 },4800);
 
-// الساعة والعد التنازلي
+// الساعة والعد التنازلي (25 مايو)
 function updateBelarusClock(){
   let now=new Date();
   let bt=new Date(now.getTime()+(3*60*60*1000));
   document.getElementById('belarusClock').innerHTML=`${bt.getUTCHours().toString().padStart(2,'0')}:${bt.getUTCMinutes().toString().padStart(2,'0')}:${bt.getUTCSeconds().toString().padStart(2,'0')}`;
 }
 setInterval(updateBelarusClock,1000); updateBelarusClock();
+
 function updateCountdown(){
   let today=new Date();
   let birthday=new Date(today.getFullYear(), 4, 25);
@@ -535,150 +536,92 @@ function calculateAndUpdateAge() {
 }
 calculateAndUpdateAge();
 
-// ========== SOUND EFFECTS FOR BIRTHDAY ==========
-let explosionSound = null;
-let celebrationMusic = null;
-
-function createExplosionSound() {
-    // Create a beep/explosion sound using Web Audio API
-    try {
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        const oscillator = audioCtx.createOscillator();
-        const gainNode = audioCtx.createGain();
-        oscillator.connect(gainNode);
-        gainNode.connect(audioCtx.destination);
-        oscillator.frequency.value = 200;
-        gainNode.gain.value = 0.3;
-        oscillator.start();
-        gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 1);
-        oscillator.stop(audioCtx.currentTime + 0.8);
-    } catch(e) { console.log("Audio error:", e); }
-}
-
-function playCelebrationSound() {
-    // Create a fun celebration melody using Web Audio API
-    try {
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        const notes = [523.25, 587.33, 659.25, 523.25, 587.33, 659.25, 783.99, 880.00];
-        let time = 0;
-        notes.forEach((freq, i) => {
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            osc.frequency.value = freq;
-            gain.gain.value = 0.2;
-            const startTime = audioCtx.currentTime + time;
-            osc.start(startTime);
-            gain.gain.exponentialRampToValueAtTime(0.00001, startTime + 0.3);
-            osc.stop(startTime + 0.3);
-            time += 0.25;
-        });
-    } catch(e) { console.log("Audio error:", e); }
-}
-
-// ========== HEAVY CELEBRATION FOR 10 SECONDS ==========
-let celebrationInterval = null;
+// ========== VISUAL CELEBRATION ONLY (NO SOUNDS AT ALL) ==========
 let fireworksInterval = null;
 
-function start10SecondCelebration() {
-    // Play explosion sound first
-    createExplosionSound();
-    
-    // Show toast message
-    showToast('🎉🎊 КАТЕ 19 ЛЕТ! С ДНЁМ РОЖДЕНИЯ! 🎊🎉');
-    
-    // Launch multiple fireworks immediately
-    for(let i = 0; i < 15; i++) {
-        setTimeout(() => {
-            createFirework(
-                innerWidth/2 + (Math.random() - 0.5) * 300,
-                innerHeight/2 + (Math.random() - 0.5) * 200
-            );
-        }, i * 100);
-    }
-    
-    // Add burst effects all over screen
-    for(let i = 0; i < 10; i++) {
-        setTimeout(() => {
-            addBurst(
-                innerWidth/2 + (Math.random() - 0.5) * 400,
-                innerHeight/2 + (Math.random() - 0.5) * 300,
-                100
-            );
-        }, i * 200);
-    }
-    
-    // Continuous fireworks every 0.5 seconds for 10 seconds
-    let fireworkCount = 0;
-    fireworksInterval = setInterval(() => {
-        if(fireworkCount < 20) { // 20 fireworks over 10 seconds
-            createFirework(
-                innerWidth/2 + (Math.random() - 0.5) * 500,
-                innerHeight/3 + Math.random() * 300
-            );
-            addBurst(undefined, undefined, 60);
-            fireworkCount++;
-        } else {
-            clearInterval(fireworksInterval);
-        }
-    }, 500);
-    
-    // Play celebration melody every 1.5 seconds for 10 seconds
-    let melodyCount = 0;
-    celebrationInterval = setInterval(() => {
-        if(melodyCount < 7) {
-            playCelebrationSound();
-            melodyCount++;
-        } else {
-            clearInterval(celebrationInterval);
-        }
-    }, 1400);
-    
-    // Show modal surprise
+function startCelebration() {
+  // Show toast message
+  showToast('🎉🎊 КАТЕ 19 ЛЕТ! С ДНЁМ РОЖДЕНИЯ! 🎊🎉');
+  
+  // Launch multiple fireworks immediately
+  for(let i = 0; i < 20; i++) {
     setTimeout(() => {
-        document.getElementById('surpriseModal').classList.add('open');
-    }, 500);
-    
-    // Stop all celebrations after 10 seconds exactly
+      createFirework(
+        innerWidth/2 + (Math.random() - 0.5) * 400,
+        innerHeight/2 + (Math.random() - 0.5) * 250
+      );
+    }, i * 100);
+  }
+  
+  // Add burst effects all over screen
+  for(let i = 0; i < 15; i++) {
     setTimeout(() => {
-        if(fireworksInterval) clearInterval(fireworksInterval);
-        if(celebrationInterval) clearInterval(celebrationInterval);
-        showToast('🎂 С ДНЁМ РОЖДЕНИЯ, КАТЯ! 19 ЛЕТ! 🎂');
-    }, 10000);
+      addBurst(
+        innerWidth/2 + (Math.random() - 0.5) * 450,
+        innerHeight/2 + (Math.random() - 0.5) * 300,
+        100
+      );
+    }, i * 150);
+  }
+  
+  // Continuous fireworks every 0.5 seconds for 10 seconds
+  let fireworkCount = 0;
+  fireworksInterval = setInterval(() => {
+    if(fireworkCount < 20) {
+      createFirework(
+        innerWidth/2 + (Math.random() - 0.5) * 550,
+        innerHeight/3 + Math.random() * 350
+      );
+      addBurst(undefined, undefined, 50);
+      fireworkCount++;
+    } else {
+      clearInterval(fireworksInterval);
+    }
+  }, 500);
+  
+  // Show modal surprise
+  setTimeout(() => {
+    document.getElementById('surpriseModal').classList.add('open');
+  }, 500);
+  
+  // Stop all celebrations after 10 seconds
+  setTimeout(() => {
+    if(fireworksInterval) clearInterval(fireworksInterval);
+    showToast('🎂 С ДНЁМ РОЖДЕНИЯ, КАТЯ! 19 ЛЕТ! 🎂');
+  }, 10000);
 }
 
 // ========== CHECK MIDNIGHT ON MAY 25th ==========
 let birthdayCelebrationStarted = false;
 
 function checkMidnightBirthday() {
-    let now = new Date();
-    let target = new Date(now.getFullYear(), 4, 25, 0, 0, 0);
-    
-    // If it's May 25th and celebration hasn't started yet
-    if (now.getMonth() === 4 && now.getDate() === 25 && !birthdayCelebrationStarted) {
-        birthdayCelebrationStarted = true;
-        document.getElementById('ageBadge').innerHTML = 19;
-        start10SecondCelebration();
-        return;
-    }
-    
-    // Also check for midnight transition on May 24th->25th
-    if (now.getDate() === 24 && now.getMonth() === 4) {
-        let timeToMidnight = target - now;
-        if (timeToMidnight > 0 && timeToMidnight < 60000) { // Last minute before midnight
-            setTimeout(() => {
-                if (!birthdayCelebrationStarted) {
-                    birthdayCelebrationStarted = true;
-                    document.getElementById('ageBadge').innerHTML = 19;
-                    start10SecondCelebration();
-                }
-            }, timeToMidnight);
+  let now = new Date();
+  let target = new Date(now.getFullYear(), 4, 25, 0, 0, 0);
+  
+  // If it's May 25th and celebration hasn't started yet
+  if (now.getMonth() === 4 && now.getDate() === 25 && !birthdayCelebrationStarted) {
+    birthdayCelebrationStarted = true;
+    document.getElementById('ageBadge').innerHTML = 19;
+    startCelebration();
+    return;
+  }
+  
+  // Also check for midnight transition on May 24th->25th
+  if (now.getDate() === 24 && now.getMonth() === 4) {
+    let timeToMidnight = target - now;
+    if (timeToMidnight > 0 && timeToMidnight < 60000) {
+      setTimeout(() => {
+        if (!birthdayCelebrationStarted) {
+          birthdayCelebrationStarted = true;
+          document.getElementById('ageBadge').innerHTML = 19;
+          startCelebration();
         }
+      }, timeToMidnight);
     }
+  }
 }
 
-// Check every 5 seconds for accurate midnight detection
+// Check every 5 seconds
 setInterval(checkMidnightBirthday, 5000);
 checkMidnightBirthday();
 
@@ -745,7 +688,7 @@ document.getElementById('envScene2').onclick=()=>{
   if(e2){showToast('🎤 Голосовое сообщение готово!');addBurst(undefined,undefined,80);}
 };
 
-// Audio player
+// Audio player for voice message only
 let currentAudio=null,isPlaying=false;
 let playBtn=document.getElementById('voicePlayBtn'),stopBtn=document.getElementById('voiceStopBtn'),statusText=document.getElementById('voiceStatusText'),playIcon=document.getElementById('playPauseIcon');
 function updateUI(playing){
