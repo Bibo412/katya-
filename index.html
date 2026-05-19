@@ -142,9 +142,52 @@ body{
 @keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(8px);}}
 .balloon-rise{position:absolute;font-size:3.3rem;animation:balloonRise 10s linear infinite;animation-delay:var(--d);left:var(--x);z-index:2;pointer-events:none;}
 @keyframes balloonRise{0%{transform:translateY(0) rotate(0deg);opacity:0.1;}10%{opacity:1;}100%{transform:translateY(-140vh) rotate(35deg);opacity:0;}}
-.info-bar{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;margin-top:0.8rem;z-index:5;}
-.info-box{background:rgba(255,255,255,0.25);backdrop-filter:blur(10px);border-radius:50px;padding:0.5rem 1.2rem;font-weight:600;font-size:0.9rem;}
+.info-bar{
+  display:flex;
+  flex-wrap:wrap;
+  gap:1rem;
+  justify-content:center;
+  align-items:center;
+  margin-top:0.8rem;
+  z-index:5;
+}
+.info-box{
+  background:rgba(255,255,255,0.25);
+  backdrop-filter:blur(10px);
+  border-radius:50px;
+  padding:0.7rem 1.3rem;
+  font-weight:600;
+  font-size:0.9rem;
+  text-align:center;
+}
 .info-box span{color:var(--red);}
+.since-box{
+  background:rgba(255,245,235,0.3);
+  backdrop-filter:blur(10px);
+  border-radius:50px;
+  padding:0.7rem 1.5rem;
+  text-align:center;
+  margin-top:0.5rem;
+  border:1px solid rgba(255,200,200,0.5);
+}
+.since-title{
+  font-size:0.8rem;
+  color:#b85c7e;
+  letter-spacing:1px;
+  margin-bottom:0.3rem;
+  font-weight:500;
+}
+.since-time{
+  font-family:'Montserrat',monospace;
+  font-weight:700;
+  font-size:1rem;
+  color:#d02040;
+  background:rgba(255,255,255,0.5);
+  display:inline-block;
+  padding:0.2rem 1rem;
+  border-radius:40px;
+  letter-spacing:1px;
+}
 .section-gallery{position:relative;background:var(--cream);padding:5rem 1.5rem;z-index:1;}
 .gallery-title{font-family:'Abril Fatface',cursive;font-size:clamp(2rem,8vw,4rem);color:var(--red);text-align:center;margin-bottom:1rem;font-style:italic;}
 .gallery-note{text-align:center;color:rgba(26,10,16,.75);margin-bottom:2rem;max-width:700px;margin-left:auto;margin-right:auto;font-size:1rem;}
@@ -259,6 +302,7 @@ body{
   .letter-card.open{max-height:700px;}
   .letter-inner{max-height:550px;}
   .qual-card{width:140px;}
+  .since-time{font-size:0.75rem;}
 }
 @media(max-width:480px){
   .hero-title{font-size:3rem;}
@@ -266,6 +310,7 @@ body{
   .letter-card.open{max-height:600px;}
   .letter-inner{max-height:450px;}
   .qual-card{width:130px;padding:1rem;}
+  .since-time{font-size:0.65rem;padding:0.15rem 0.8rem;}
 }
 #toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(20px);background:#d02040;color:white;padding:12px 28px;border-radius:50px;font-weight:600;opacity:0;transition:all .3s;z-index:9999;pointer-events:none;white-space:nowrap;}
 @media(max-width:480px){#toast{white-space:normal;max-width:85%;text-align:center;font-size:0.8rem;}}
@@ -276,7 +321,7 @@ body{
 <!-- شاشة الترحيب -->
 <div class="splash-screen" id="splashScreen">
   <div class="splash-title" id="splashTitle">🎂</div>
-  <div class="typed-splash" id="splashTyped"></div>
+<div class="typed-splash" id="splashTyped"></div>
   <div class="splash-sub">Для самой прекрасной Кати</div>
   <div class="splash-loader"><div class="splash-loader-fill"></div></div>
 </div>
@@ -319,6 +364,10 @@ body{
     <div class="info-box">🕐 Беларусь: <span id="belarusClock">--:--:--</span></div>
     <div class="info-box">🎂 До дня рождения: <span id="countdownTimer">-- дн. -- ч. -- мин.</span></div>
   </div>
+  <div class="since-box">
+    <div class="since-title">💖 С того момента, как мы узнали друг друга 💖</div>
+    <div class="since-time" id="sinceTimer">⏳ Загрузка...</div>
+  </div>
   <button class="candle-btn" id="blowCandleBtn">🕯️🎂 Задуть свечи! 🎂🕯️</button>
   <div class="scroll-hint" id="scrollHint">↓</div>
 </section>
@@ -331,7 +380,7 @@ body{
       <div class="slider-img"><img src="images/Gemini_Generated_Image_.png" alt="Фото 1" onerror="this.src='https://placehold.co/800x600/f0a0b5/white?text=🌸'"></div>
       <div class="slider-img"><img src="images/Gemini_Generated_Image_%20(2).png" alt="Фото 2" onerror="this.src='https://placehold.co/800x600/f0a0b5/white?text=🌷'"></div>
       <div class="slider-img"><img src="images/text%20katya.png.png" alt="Фото 3" onerror="this.src='https://placehold.co/800x600/d02040/white?text=💕'"></div>
-      <div class="slider-img"><img src="images/Katya1.png" alt="Фото 3" onerror="this.src='https://placehold.co/800x600/d02040/white?text=💕'"></div>
+      <div class="slider-img"><img src="images/Katya1.png" alt="Фото 4" onerror="this.src='https://placehold.co/800x600/d02040/white?text=💕'"></div>
     </div>
     <button class="slider-btn slider-prev" id="sliderPrev">❮</button>
     <button class="slider-btn slider-next" id="sliderNext">❯</button>
@@ -346,9 +395,7 @@ body{
     <div class="qual-card" onclick="showToast('🌸 Искренность — твоё сердце говорит правду!')"><div class="qual-icon">🌼</div><div class="qual-name">Искренняя</div></div>
     <div class="qual-card" onclick="showToast('🎨 Искусство в твоей душе делает этот мир прекраснее.')"><div class="qual-icon">🎨</div><div class="qual-name">Творческая</div></div>
     <div class="qual-card" onclick="showToast('💖 Верность — дружба с тобой бесценна!')"><div class="qual-icon">🤍</div><div class="qual-name">Надёжная</div></div>
-    <!-- البطاقة الجديدة الأولى: Благородство ⚜️ -->
     <div class="qual-card" onclick="showToast('⚜️ Я восхищаюсь тем, как ты уважаешь историю своей страны и память её героев. ⚜️')"><div class="qual-icon">⚜️</div><div class="qual-name">Благородство</div></div>
-    <!-- البطاقة الجديدة الثانية: Набожная 🙏 -->
     <div class="qual-card" onclick="showToast('🙏 Я очень уважаю твою веру и то, как ты хранишь свои ценности. Это делает твою красоту ещё глубже. 🙏')"><div class="qual-icon">🙏</div><div class="qual-name">Набожная</div></div>
   </div>
 </section>
@@ -529,6 +576,35 @@ function updateCountdown(){
   document.getElementById('countdownTimer').innerHTML=`${Math.floor(diff/(1000*60*60*24))} дн. ${Math.floor((diff%86400000)/3600000)} ч. ${Math.floor((diff%3600000)/60000)} мин.`;
 }
 setInterval(updateCountdown,60000); updateCountdown();
+
+// ========== TIMER SINCE WE MET (8 July 2025, 20:44) ==========
+function updateSinceTimer() {
+  const startDate = new Date(2025, 6, 8, 20, 44, 0);
+  const now = new Date();
+  const diff = now - startDate;
+  
+  if (diff < 0) {
+    document.getElementById('sinceTimer').innerHTML = '⌛ Скоро...';
+    return;
+  }
+  
+  const seconds = Math.floor(diff / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+  const years = Math.floor(days / 365);
+  const remainingDays = days % 365;
+  const remainingHours = hours % 24;
+  const remainingMinutes = minutes % 60;
+  const remainingSeconds = seconds % 60;
+  
+  // التنسيق المطلوب: 2025/07/08
+  const startDateFormatted = `2025/07/08`;
+  
+  document.getElementById('sinceTimer').innerHTML = `📅 ${startDateFormatted}  |  ⏱️ ${years} г. ${remainingDays} дн. ${remainingHours} ч. ${remainingMinutes} мин. ${remainingSeconds} сек.`;
+}
+setInterval(updateSinceTimer, 1000);
+updateSinceTimer();
 
 // ========== حساب العمر الصحيح (تاريخ الميلاد: 25 مايو 2007) ==========
 function calculateAndUpdateAge() {
